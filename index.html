@@ -1,0 +1,64 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/main.css">
+
+<div id="root">
+  <div data-bind="template: root.class, data: root.args"></div>
+</div>
+
+<!-- === TEMPLATES === -->
+
+<script id="template-array" type="text/html">
+  <div class="member" data-bind="foreach: item in {{property}}">
+    class: <select data-bind="options: item.getClassNames(), change: item.setClass,
+                              value: item.class"></select>
+    <span data-bind="text: item.class"></span>
+    <div data-bind="template: item.class, data: item.args"></div>
+  </div>
+</script>
+
+<script id="template-enum" type="text/html">
+  <div>
+    <select data-bind="options: item.getArgTypes(), value: item.class"></select>
+  </div>
+</script>
+
+<script id="template-number" type="text/html">
+  <div>
+    <span data-bind="text: '{{property}}:'"></span>
+    <input type="number" data-bind="value: {{property}}"></input>
+  </div>
+</script>
+
+<script id="template-string" type="text/html">
+  <div>
+    <span data-bind="text: '{{property}}:'"></span>
+    <input type="string" data-bind="value: {{property}}"></input>
+  </div>
+</script>
+
+<script id="template-object" type="text/html">
+</script>
+
+<script id="template-vector" type="text/html">
+  <div>
+    {{property}}
+    <span>
+      <span>x:</span>
+      <input type="number" data-bind="value: {{property}}.x"></input>
+    </span>
+    <span>
+      <span>y:</span>
+      <input type="number" data-bind="value: {{property}}.y"></input>
+    </span>
+    <span>
+      <span>z:</span>
+      <input type="number" data-bind="value: {{property}}.z"></input>
+    </span>
+  </div>
+</script>
+
+
+<script src="js/libs/knockoff.js"></script>
+<script src="js/libs/mustache.js"></script>
+<script src="js/main.js"></script>
