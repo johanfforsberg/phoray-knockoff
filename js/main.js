@@ -51,11 +51,31 @@
                         "z": {"type": "number"}
                     }
                 },
-                "color": {
-                    "type":"number"
+                "shape": {
+                    "type":"string",
+                    default: "sphere"
+                }
+            }
+        },
+        "Detector": {
+            "type": "object",
+            "properties": {
+                "position": {
+                    "type":"object",
+                    "hint": "vector",
+                    "properties": {
+                        "x": {"type": "number"},
+                        "y": {"type": "number"},
+                        "z": {"type": "number"}
+                    }
+                },
+                "gain": {
+                    "type":"number",
+                    default: 1
                 }
             }
         }
+
     };
 
     var templates = {};
@@ -89,9 +109,7 @@
     Wrapper.prototype.setClass = function (v) {
         console.log("setClass", this);
         var new_class = v.target.value;
-        this.args = new elementTypes[new_class]()  //this.args);
-        this.class = new_class;
-        //this.class = new_class;
+        this.args = new elementTypes[new_class](makeArgs(this.class, this.args));  //this.args);
     };
 
     var elementTypes = {};
@@ -115,12 +133,21 @@
         }
     };
 
+    function makeArgs (cls, args) {
+        var filtered_args = {};
+        Object.keys(args).forEach(function (prop) {
+            if (prop in schema[cls].properties)
+                filtered_args[prop] = args[prop];
+        });
+        return new elementTypes[cls](filtered_args);
+    }
+
     function makeModel (obj) {
         var args;
         if (obj.args.children) {
             obj.args.children = obj.args.children.map(makeModel);
         }
-        args = new elementTypes[obj.class](obj.args);
+        args = makeArgs(obj.class, obj.args);
         return new Wrapper({'class': obj.class, 'args': args});
     }
 

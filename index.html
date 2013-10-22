@@ -3,37 +3,31 @@
 <link rel="stylesheet" href="css/main.css">
 
 <div id="root">
-  <div data-bind="template: root.class, data: root.args"></div>
+  <div data-bind="template: root.class, data: root"></div>
 </div>
 
 <!-- === TEMPLATES === -->
 
 <script id="template-array" type="text/html">
-  <div class="member" data-bind="foreach: item in {{property}}">
+  <div class="member" data-bind="foreach: item in args.{{property}}">
     class: <select data-bind="options: item.getClassNames(), change: item.setClass,
                               value: item.class"></select>
     <span data-bind="text: item.class"></span>
-    <div data-bind="template: item.class, data: item.args"></div>
-  </div>
-</script>
-
-<script id="template-enum" type="text/html">
-  <div>
-    <select data-bind="options: item.getArgTypes(), value: item.class"></select>
+    <div data-bind="template: item.class, data: item"></div>
   </div>
 </script>
 
 <script id="template-number" type="text/html">
   <div>
     <span data-bind="text: '{{property}}:'"></span>
-    <input type="number" data-bind="value: {{property}}"></input>
+    <input type="number" data-bind="value: args.{{property}}"></input>
   </div>
 </script>
 
 <script id="template-string" type="text/html">
   <div>
     <span data-bind="text: '{{property}}:'"></span>
-    <input type="string" data-bind="value: {{property}}"></input>
+    <input type="string" data-bind="value: args.{{property}}"></input>
   </div>
 </script>
 
@@ -45,15 +39,15 @@
     {{property}}
     <span>
       <span>x:</span>
-      <input type="number" data-bind="value: {{property}}.x"></input>
+      <input type="number" data-bind="value: args.{{property}}.x"></input>
     </span>
     <span>
       <span>y:</span>
-      <input type="number" data-bind="value: {{property}}.y"></input>
+      <input type="number" data-bind="value: args.{{property}}.y"></input>
     </span>
     <span>
       <span>z:</span>
-      <input type="number" data-bind="value: {{property}}.z"></input>
+      <input type="number" data-bind="value: args.{{property}}.z"></input>
     </span>
   </div>
 </script>
